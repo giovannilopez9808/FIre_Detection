@@ -8,6 +8,29 @@ import os
 
 class city_list:
     def __init__(self, city=""):
+        """
+
+        ##### Contiene los parametros del periodo y zona de análisis de cada región
+
+        ### Inputs
+        + city -> nombre de la ciudad de la cual se cargaran los parámetros (str) 
+
+        ### Return
+
+        + self.parameters -> diccionario con los siguientes atributos:
+            + day inital -> día inicial del periodo (str)
+            + day final -> dia final del periodo (str)
+            + lon -> lista con la longitud del área por analizar [float,float]
+            + lat -> lista con la latitud del área por analizar [float,float]
+            + delta -> divisiones de las grillas del mapa (float)
+            + path data -> direccion donde se encuentran los datos
+            + file data -> nombre del archivo de datos
+            + path graphics -> direccion donde se guardaran las imagenes
+
+        """
+        self.parameters = {"path data": "../Data/",
+                           "file data": "data.csv",
+                           "path graphics": "../Graphics/"}
         self.citys = {
             "Parana_2020": {
                 "day initial": "2020-06-03",
@@ -39,12 +62,12 @@ class city_list:
                 "delta": 0.25,
             },
         }
-        self.parameters = {"path data": "../Data/",
-                           "file data": "data.csv",
-                           "path graphics": "../Graphics/"}
         self.select_city_parameters(city_name=city)
 
     def select_city_parameters(self, city_name=""):
+        """
+        Realiza una union del diccionario con las direcciones de los datos con el diccionario de los parametros para cada ciudad
+        """
         self.parameters.update(self.citys[city_name])
 
 
@@ -54,11 +77,14 @@ class FIRMS_data:
         self.format_dates()
         # Lectura y formateo de los datos
         self.read_data()
-        self.cut_data()
+        self.select_data()
         if select_nominal_data:
             self.select_data_from_confidence_data()
 
     def format_dates(self):
+        """
+        Aplica el formato de fecha a los parametros day initial y day final
+        """
         self.parameters["day initial"] = pd.to_datetime(
             self.parameters["day initial"])
         self.parameters["day final"] = pd.to_datetime(
@@ -75,41 +101,43 @@ class FIRMS_data:
 
     def format_date_data(self, data=pd.DataFrame()):
         """
-        Funcion que crea el formato de las fechas y las asigna al indice
-        del dataframe
+        Funcion que realiza el formato en las fechas y las asigna al indice del dataframe
         """
         data.index = pd.to_datetime(data["acq_date"])
         data = data.drop("acq_date", 1)
         return data
 
-    def cut_data(self):
-        # Seleccion de los datos en el periodo introducido
-        self.cut_data_from_dates()
-        # Selección de los datos de acuerdo a el area a analizar
-        self.cut_data_from_location()
-
-    def cut_data_from_dates(self):
+    def select_data(self):
         """
-        Funcion que corta los datos en un periodo de tiempo
+        Selecciona los datos a partir tomando en cuenta el periodo de analisis y la localizacion
+        """
+        # Seleccion de los datos en el periodo introducido
+        self.select_data_from_period()
+        # Selección de los datos de acuerdo a el area a analizar
+        self.select_data_from_location()
+
+    def select_data_from_period(self):
+        """
+        Funcion que selecciona los datos en un periodo de tiempo
         """
         self.data = self.data[self.data.index >=
                               self.parameters["day initial"]]
         self.data = self.data[self.data.index <= self.parameters["day final"]]
 
-    def cut_data_from_location(self):
+    def select_data_from_location(self):
         """
-        Funcion que corta los datos en un intervalo de longitudes y latitudes
+        Funcion que seleciona los datos en un a partir de la localización
         """
-        self.data = self.cut_data_from_positions(data=self.data,
-                                                 name_position="longitude",
-                                                 positions=self.parameters["lon"])
-        self.data = self.cut_data_from_positions(data=self.data,
-                                                 name_position="latitude",
-                                                 positions=self.parameters["lat"])
+        self.data = self.select_data_from_positions(data=self.data,
+                                                    name_position="longitude",
+                                                    positions=self.parameters["lon"])
+        self.data = self.select_data_from_positions(data=self.data,
+                                                    name_position="latitude",
+                                                    positions=self.parameters["lat"])
 
-    def cut_data_from_positions(self, data=pd.DataFrame(), name_position="", positions=[]):
+    def select_data_from_positions(self, data=pd.DataFrame(), name_position="", positions=[]):
         """
-        Funcion que corta los datos en un intervalo de posiciones
+        Funcion que selecciona los datos en un intervalo de posiciones
         """
         data = data[data[name_position] >= positions[0]]
         data = data[data[name_position] <= positions[1]]
@@ -117,7 +145,7 @@ class FIRMS_data:
 
     def select_data_from_confidence_data(self):
         """
-        Selecciona solo un tipo de dato del FIRMS
+        Selecciona solo un tipo de dato del FIRMS dependiendo su confiabilidad
         """
         self.data = self.data[self.data["confidence"] == "n"]
 
@@ -128,9 +156,11 @@ class Fire_Count:
         Conteo de los datos de FIRMS en una localización fijada.
         Parameters
         ----------
-        + City_name: Nombre de la ciudad donde se cargaran los parametros
-        + select_nominal_data
-        + color
+        #### Inputs
+        + City_name -> Nombre de la ciudad donde se cargaran los parametros
+        + select_nominal_data -> valor para seleccionar solamente los datos de tipo nominal
+        + color -> color del numero por imprimir en las graficas
+        ---------
         """
         self.obtain_city_parameters(city_name=city_name)
         self.FIRMS_data = FIRMS_data(parameters=self.parameters,
@@ -138,12 +168,29 @@ class Fire_Count:
         self.color = color
 
     def obtain_city_parameters(self, city_name=""):
+        """
+        Selecciona los parametros dependiendo del nombre de la ciudad
+        """
         city_parameters = city_list(city_name)
         self.parameters = city_parameters.parameters
 
+    def read_map(self, name="map.png"):
+        """
+        Lectura del mapa de la region donde se esta realizando el estudio
+        """
+        # Lectura de la imagen
+        self.map = plt.imread("{}{}".format(self.parameters["path graphics"],
+                                            name))
+        # Obtener las dimensiones de la imagen en pixeles
+        self.fig_y, self.fig_x, _ = np.shape(self.map)
+        # Reflexion vertical de la imagen
+        self.map = np.flipud(self.map)
+        # Calculo de las grillas de la region por analizar
+        self.create_grids()
+
     def create_grids(self):
         """
-        Funcion que crea las grillas de biusqueda y realiza la transformacion para el espacio de la imagen
+        Funcion que crea las grillas de busqueda y realiza la transformacion para el espacio de la imagen
         """
         self.lon_division, self.lon_n = self.delimiter_grids(self.parameters["lon"],
                                                              self.parameters["delta"])
@@ -156,7 +203,7 @@ class Fire_Count:
                                                            self.parameters["lat"],
                                                            self.fig_y)
 
-    def delimiter_grids(self, pos_points, delta):
+    def delimiter_grids(self, pos_points=[], delta=0.25):
         """
         Funcion para obtener el numero de grillas
         """
@@ -164,9 +211,9 @@ class Fire_Count:
         size = np.size(pos)
         return pos, size
 
-    def traslation_positions(self, pos_data, pos_parameter, resize):
+    def traslation_positions(self, pos_data=[], pos_parameter=[], resize=500):
         """
-        Funcion para redefinir las posicioness
+        Funcion para redefinir las posiciones de las longitudes y latitudes al espacio de la imagen
         """
         resize = resize/abs(pos_parameter[1]-pos_parameter[0])
         n = np.size(pos_data)
@@ -174,16 +221,6 @@ class Fire_Count:
         for i in range(n):
             pos_data_tras[i] = (pos_data[i]-pos_parameter[0])*resize
         return pos_data_tras
-
-    def read_map(self, name="map.png"):
-        """
-        Lectura del mapa de la zona donde se esta realizando el estudio
-        """
-        self.map = plt.imread("{}{}".format(self.parameters["path graphics"],
-                                            name))
-        self.fig_y, self.fig_x, _ = np.shape(self.map)
-        self.map = np.flipud(self.map)
-        self.create_grids()
 
     def algorithm(self):
         """
@@ -253,16 +290,19 @@ class Fire_Count:
                 lat_j = [self.lat_division[lat_i],
                          self.lat_division[lat_i+1]]
                 # Localizacion de los datos a partir de su longitud
-                data_loc = self.FIRMS_data.cut_data_from_positions(data,
-                                                                   "longitude",
-                                                                   lon_j)
+                data_loc = self.FIRMS_data.select_data_from_positions(data,
+                                                                      "longitude",
+                                                                      lon_j)
                 # Localizacion de los datos a partir de su latitud
-                data_loc = self.FIRMS_data.cut_data_from_positions(data_loc,
-                                                                   "latitude",
-                                                                   lat_j)
+                data_loc = self.FIRMS_data.select_data_from_positions(data_loc,
+                                                                      "latitude",
+                                                                      lat_j)
                 self.count[lon_i, lat_i] = data_loc["latitude"].count()
 
     def obtain_dates(self):
+        """
+        Obtiene las fechas consecutivas en el periodo
+        """
         days = (self.parameters["day final"] -
                 self.parameters["day initial"]).days
         dates = []
@@ -271,7 +311,7 @@ class Fire_Count:
             dates.append(date)
         return dates
 
-    def plot_points(self, lon, lat):
+    def plot_points(self, lon=np.array([]), lat=np.array([])):
         """
         Funcion para plotear los puntos de cada incendio
         """
@@ -280,7 +320,7 @@ class Fire_Count:
                     color="#ff0000",
                     marker=".")
 
-    def plot_map(self, sum, name, path=""):
+    def plot_map(self, sum=10, name="", path=""):
         """
         Funcion para plotear el mapa y guardar la grafica
         """
@@ -291,7 +331,7 @@ class Fire_Count:
 
         plt.title("Date {}\nTotal de incendios: {}".format(name,
                                                            sum))
-        # Ploteo de los puntos
+        # Cambio en las ticks de cada eje
         plt.xticks(self.lon_division_tras,
                    self.lon_division)
         plt.yticks(self.lat_division_tras,
@@ -300,13 +340,15 @@ class Fire_Count:
                  self.lon_division_tras[-1])
         plt.ylim(self.lat_division_tras[0],
                  self.lat_division_tras[-1])
+        # Ploteo de el grid
         plt.grid(color="black",
                  ls="--")
+        # Guardado de la imagen
         plt.savefig("{}{}.png".format(path,
                                       name))
         plt.clf()
 
-    def number_plot(self, lon_list, lat_list, count_list, color):
+    def number_plot(self, lon_list=[], lat_lis=[], count_list=50, color="white"):
         """
         Funcion para plotear el numero de incendios, si este es 0, no ploteara nada
         """
@@ -327,27 +369,18 @@ class Fire_Count:
         """
         Funcion que ejecuta la creacion de la animacion
         """
-        self.create_movie(self.path_movie,
-                          name,
-                          delete,
-                          fps)
-
-    def create_movie(self, path, name, delete_images, fps):
-        """
-        Funcion que crea el gif a partir de las graficas diarias
-        """
-        filenames = sorted(os.listdir(path))
-        filenames = [path+filename for filename in filenames]
-        output_file = "{}{}.mp4".format(path,
+        filenames = sorted(os.listdir(self.path_movie))
+        filenames = [self.path_movie+filename for filename in filenames]
+        output_file = "{}{}.mp4".format(self.path_movie,
                                         name)
         movie = Movie_maker.ImageSequenceClip(filenames,
                                               fps=fps,)
         movie.write_videofile(output_file,
                               logger=None)
-        path_original = path.replace("Movie/", "")
-        print("Creación del video en {}".format(path_original))
-        os.system("mv {}{}.mp4 {}".format(path,
+        print("Creación del video en {}".format(
+            self.parameters["path graphics"]))
+        os.system("mv {}{}.mp4 {}".format(self.path_movie,
                                           name,
-                                          path_original))
-        if delete_images:
-            os.system("rm {}*.png".format(path))
+                                          self.parameters["path graphics"]))
+        if delete:
+            os.system("rm {}*.png".format(self.path_movie))s
