@@ -16,7 +16,7 @@ class city_list:
                 "lat": [-33.5, -32.5],
                 "delta": 0.25,
             },
-            "Parana_2021": {
+            "Parana_2021_May": {
                 "day initial": "2021-05-01",
                 "day final": "2021-06-01",
                 "lon": [-60.75, -60],
