@@ -1,56 +1,83 @@
 from Class_list import *
 
 
-def count_data_confidence(data):
+def obtain_ticks(data, day_separation):
     """
-    Funcion que calcula el porcentaje de valores para cada tipo de dato
+    Función que prepara dos arrays para renombrar las
+    etiquetas del eje x de la grafica con las fechas
     """
-    count_confidence = data.groupby("confidence").count()
-    total = count_confidence.sum()
-    count_confidence = count_confidence/total*100
-    count_confidence = count_confidence["latitude"]
-    return count_confidence
+    # Longitud de datos
+    data_len = data["NI"].count()
+    # Separación de fechas a imprimir
+    loc = np.arange(0,
+                    data_len,
+                    day_separation)
+    # Si no se encuentra la ultima fecha agregarla
+    if data.index[loc[-1]] != data.index[data_len-1]:
+        loc = np.append(loc, data_len-1)
+    # Obtener las fechas seleccionadas
+    dates = list(data.index[loc])
+    return dates
 
 
-def autolabel(ax, rects):
-    """
-    Funcion que grafica los valores de cada barra
-    """
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate('{:.2f}'.format(height),
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 3),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom',)
+def format_data(data):
+    data.index = pd.to_datetime(data["Dates"])
+    data = data.drop("Dates", 1)
+    return data
 
 
-inputs = {
-    "graphics name": "Bar_Confidence_percentage.png",
-    "City name": "Nuevo Leon",
+parameters = {
+    "file data": "NI.csv",
+    "file results": "NIA.csv",
+    "graphics file": "Fire_Accumulative.png",
+    "City name": "Parana_2020",
+    "Days separation": 7,
+    "Y limit": 13000,
+    "Delta y": 1000,
 }
 # Lectura de los parametros de cada ciudad
-citys = city_list()
-parameters = citys.select_city_parameters(inputs["City name"])
-# Lectura de los datos de FIRMS
-FIRMS = FIRMS_data(parameters["path data"],
-                   parameters["file data"],
-                   parameters["lon"],
-                   parameters["lat"],
-                   parameters["day initial"],
-                   parameters["day final"])
-# Conteo de datos para cada tipo de dato
-count_confidence = count_data_confidence(FIRMS.data)
-# Ploteo de cada columna
-fig, ax = plt.subplots()
-rect = ax.bar(count_confidence.index, count_confidence, 0.75)
-autolabel(ax, rect)
-rect[0].set_color("#22577a")
-rect[1].set_color("#38a3a5")
-rect[2].set_color("#57cc99")
-ax.set_ylim(0, 100)
-ax.set_ylabel("Frecuencia de intervalo de confianza (%)")
-ax.set_xlabel("nivel de confianza")
-plt.savefig("{}{}/{}".format(parameters["path graphics"],
-                             parameters["city"],
-                             inputs["graphics name"]))
+city = city_list(city=parameters["City name"])
+# Lectura de los datos
+data = pd.read_csv("{}{}".format(city.parameters["path data"],
+                                 parameters["file data"]))
+data = format_data(data)
+data["NIA"] = data.cumsum()
+data.to_csv("{}{}".format(city.parameters["path data"],
+                          parameters["file results"]))
+# Extraccion de las fechas seleccionadas
+dates = obtain_ticks(data,
+                     parameters["Days separation"])
+# Limites de las graficas
+plt.subplots_adjust(left=0.121,
+                    right=0.952,
+                    bottom=0.162,
+                    top=0.924)
+# Ploteo de los datos
+plt.plot(list(data.index), list(data["NIA"]),
+         color="#9a031e",
+         alpha=0.5)
+plt.scatter(data.index, list(data["NIA"]),
+            marker=".",
+            c="#9a031e",
+            alpha=0.5)
+# Limites de las graficas
+plt.xlim(dates[0],
+         dates[-1])
+plt.ylim(0,
+         parameters["Y limit"])
+# Etiqueta en el eje y
+plt.ylabel("Número de Incendios Acumulados")
+# Cambio en las etiquetas de los ejes x y y
+plt.xticks(dates,
+           rotation=45)
+plt.yticks(np.arange(0,
+                     parameters["Y limit"]+parameters["Delta y"],
+                     parameters["Delta y"]))
+# Creación del grid
+plt.grid(ls="--",
+         color="grey",
+         alpha=0.7)
+# Guardado de la grafica
+plt.savefig("{}{}".format(city.parameters["path graphics"],
+                          parameters["graphics file"]),
+            dpi=400)
