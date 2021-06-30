@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
+from Class_list import *
 
 
 def obtain_ticks(data, day_separation):
@@ -23,32 +21,32 @@ def obtain_ticks(data, day_separation):
 
 
 def format_data(data):
-    data.index = pd.to_datetime(data["Dates"]).dt.strftime("%d-%b")
+    data.index = pd.to_datetime(data["Dates"])
     data = data.drop("Dates", 1)
     return data
 
 
-inputs = {
-    "path data": "../Data/",
-    "path graphics": "../Graphics/",
+parameters = {
     "file data": "NI.csv",
     "file results": "NIA.csv",
     "graphics file": "Fire_Accumulative.png",
-    "city": "Nuevo_Leon",
+    "City name": "Parana_2021_Jun",
     "Days separation": 7,
+    "Y limit": 40,
+    "Delta y": 5,
 }
+# Lectura de los parametros de cada ciudad
+city = city_list(city=parameters["City name"])
 # Lectura de los datos
-data = pd.read_csv("{}{}/{}".format(inputs["path data"],
-                                    inputs["city"],
-                                    inputs["file data"]))
+data = pd.read_csv("{}{}".format(city.parameters["path data"],
+                                 parameters["file data"]))
 data = format_data(data)
 data["NIA"] = data.cumsum()
-data.to_csv("{}{}/{}".format(inputs["path data"],
-                             inputs["city"],
-                             inputs["file results"]))
+data.to_csv("{}{}".format(city.parameters["path data"],
+                          parameters["file results"]))
 # Extraccion de las fechas seleccionadas
 dates = obtain_ticks(data,
-                     inputs["Days separation"])
+                     parameters["Days separation"])
 # Limites de las graficas
 plt.subplots_adjust(left=0.121,
                     right=0.952,
@@ -65,21 +63,21 @@ plt.scatter(data.index, list(data["NIA"]),
 # Limites de las graficas
 plt.xlim(dates[0],
          dates[-1])
-plt.ylim(0)
+plt.ylim(0,
+         parameters["Y limit"])
 # Etiqueta en el eje y
 plt.ylabel("Número de Incendios Acumulados")
 # Cambio en las etiquetas de los ejes x y y
 plt.xticks(dates,
            rotation=45)
 plt.yticks(np.arange(0,
-                     2500+250,
-                     250))
+                     parameters["Y limit"]+parameters["Delta y"],
+                     parameters["Delta y"]))
 # Creación del grid
 plt.grid(ls="--",
          color="grey",
          alpha=0.7)
 # Guardado de la grafica
-plt.savefig("{}{}/{}".format(inputs["path graphics"],
-                             inputs["city"],
-                             inputs["graphics file"]),
+plt.savefig("{}{}".format(city.parameters["path graphics"],
+                          parameters["graphics file"]),
             dpi=400)
