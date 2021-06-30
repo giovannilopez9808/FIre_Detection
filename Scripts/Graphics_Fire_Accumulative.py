@@ -31,7 +31,7 @@ parameters = {
     "file results": "NIA.csv",
     "graphics file": "Fire_Accumulative.png",
     "City name": "Parana_2021_Jun",
-    "Days separation": 7,
+    "Days separation": 1,
     "Y limit": 40,
     "Delta y": 5,
 }
