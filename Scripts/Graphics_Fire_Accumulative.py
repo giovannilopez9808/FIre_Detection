@@ -32,8 +32,8 @@ parameters = {
     "graphics file": "Fire_Accumulative.png",
     "City name": "Parana_2020",
     "Days separation": 7,
-    "Y limit": 13000,
-    "Delta y": 1000,
+    "Y limit": 80,
+    "Delta y": 10,
 }
 # Lectura de los parametros de cada ciudad
 city = city_list(city=parameters["City name"])
