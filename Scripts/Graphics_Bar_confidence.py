@@ -1,7 +1,7 @@
 from Class_list import *
 
 
-def count_data_confidence(data):
+def count_data_confidence(data=pd.DataFrame()):
     """
     Funcion que calcula el porcentaje de valores para cada tipo de dato
     """
@@ -12,7 +12,7 @@ def count_data_confidence(data):
     return count_confidence
 
 
-def autolabel(ax, rects):
+def autolabel(ax=plt.subplot(), rects=plt.bar()):
     """
     Funcion que grafica los valores de cada barra
     """
