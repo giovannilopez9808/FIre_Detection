@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 
-def obtain_ticks(data, day_separation):
+def obtain_ticks(data=pd.DataFrame(), day_separation=7):
     """
     Función que prepara dos arrays para renombrar las
     etiquetas del eje x de la grafica con las fechas
@@ -22,7 +22,10 @@ def obtain_ticks(data, day_separation):
     return dates
 
 
-def format_data(data):
+def format_data(data=pd.DataFrame()):
+    """
+    Aplica el formato de fecha a los datos y los agrega al indice del dataframe
+    """
     data.index = pd.to_datetime(data["Dates"]).dt.strftime("%d-%b")
     data = data.drop("Dates", 1)
     return data
