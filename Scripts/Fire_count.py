@@ -1,6 +1,6 @@
 from Class_list import *
 inputs = {
-    "City name": "Nuevo_Leon",
+    "City name": "Parana_2021_May",
     "Number color": "white",
     "Select nominal data": True,
 }
