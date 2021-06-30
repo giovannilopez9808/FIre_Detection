@@ -1,9 +1,7 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
+from Class_list import *
 
 
-def obtain_ticks(data, day_separation):
+def obtain_ticks(data=pd.DataFrame(), day_separation=7):
     """
     Función que prepara dos arrays para renombrar las
     etiquetas del eje x de la grafica con las fechas
@@ -22,28 +20,32 @@ def obtain_ticks(data, day_separation):
     return dates
 
 
-def format_data(data):
-    data.index = pd.to_datetime(data["Dates"]).dt.strftime("%d-%b")
+def format_data(data=pd.DataFrame()):
+    """
+    Aplica el formato de fecha a la columna Dates y la agrega al indice del dataframe
+    """
+    data.index = pd.to_datetime(data["Dates"])
     data = data.drop("Dates", 1)
     return data
 
 
-inputs = {
-    "path data": "../Data/",
-    "path graphics": "../Graphics/",
+parameters = {
     "file data": "NI.csv",
     "graphics file": "Fire_Per_Day.png",
-    "city": "Nuevo_Leon",
-    "Days separation": 7,
+    "City name": "Parana_2020",
+    "Days separation": 10,
+    "Y limit": 550,
+    "Delta y": 50,
 }
+# Lectura de los parametros de cada ciudad
+city = city_list(city=parameters["City name"])
 # Lectura de los datos
-data = pd.read_csv("{}{}/{}".format(inputs["path data"],
-                                    inputs["city"],
-                                    inputs["file data"]))
+data = pd.read_csv("{}{}".format(city.parameters["path data"],
+                                 parameters["file data"]))
 data = format_data(data)
 # Extraccion de las fechas seleccionadas
 dates = obtain_ticks(data,
-                     inputs["Days separation"])
+                     parameters["Days separation"])
 # Limites de las graficas
 plt.subplots_adjust(left=0.121,
                     right=0.952,
@@ -60,21 +62,21 @@ plt.scatter(data.index, list(data["NI"]),
 # Limites de las graficas
 plt.xlim(dates[0],
          dates[-1])
-plt.ylim(0, 300)
+plt.ylim(0,
+         parameters["Y limit"])
 # Etiqueta en el eje y
-plt.ylabel("Número de Incendios")
+plt.ylabel("Número de Incendios Acumulados")
 # Cambio en las etiquetas de los ejes x y y
 plt.xticks(dates,
            rotation=45)
 plt.yticks(np.arange(0,
-                     300+25,
-                     25))
+                     parameters["Y limit"]+parameters["Delta y"],
+                     parameters["Delta y"]))
 # Creación del grid
 plt.grid(ls="--",
          color="grey",
          alpha=0.7)
 # Guardado de la grafica
-plt.savefig("{}{}/{}".format(inputs["path graphics"],
-                             inputs["city"],
-                             inputs["graphics file"]),
+plt.savefig("{}{}".format(city.parameters["path graphics"],
+                          parameters["graphics file"]),
             dpi=400)
