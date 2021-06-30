@@ -46,9 +46,6 @@ class city_list:
 
     def select_city_parameters(self, city_name=""):
         self.parameters.update(self.citys[city_name])
-        self.parameters["city"] = city_name
-        self.parameters["path data"] += city_name+"/"
-        self.parameters["path graphics"] += city_name+"/"
 
 
 class FIRMS_data:
