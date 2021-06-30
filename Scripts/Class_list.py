@@ -383,4 +383,4 @@ class Fire_Count:
                                           name,
                                           self.parameters["path graphics"]))
         if delete:
-            os.system("rm {}*.png".format(self.path_movie))s
+            os.system("rm {}*.png".format(self.path_movie))
