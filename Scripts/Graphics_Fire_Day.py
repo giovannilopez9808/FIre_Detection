@@ -76,8 +76,7 @@ plt.yticks(np.arange(0,
 plt.grid(ls="--",
          color="grey",
          alpha=0.7)
-plt.show()
 # Guardado de la grafica
-# plt.savefig("{}{}".format(city.parameters["path graphics"],
-#                           parameters["graphics file"]),
-#             dpi=400)
+plt.savefig("{}{}".format(city.parameters["path graphics"],
+                          parameters["graphics file"]),
+            dpi=400)
