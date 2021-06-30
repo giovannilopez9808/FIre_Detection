@@ -25,20 +25,15 @@ def autolabel(ax, rects):
                     ha='center', va='bottom',)
 
 
-inputs = {
+parameters = {
     "graphics name": "Bar_Confidence_percentage.png",
-    "City name": "Nuevo Leon",
+    "City name": "Nuevo_Leon",
 }
 # Lectura de los parametros de cada ciudad
-citys = city_list()
-parameters = citys.select_city_parameters(inputs["City name"])
+city = city_list(city=parameters["City name"])
 # Lectura de los datos de FIRMS
-FIRMS = FIRMS_data(parameters["path data"],
-                   parameters["file data"],
-                   parameters["lon"],
-                   parameters["lat"],
-                   parameters["day initial"],
-                   parameters["day final"])
+FIRMS = FIRMS_data(parameters=city.parameters,
+                   select_nominal_data=False)
 # Conteo de datos para cada tipo de dato
 count_confidence = count_data_confidence(FIRMS.data)
 # Ploteo de cada columna
@@ -51,6 +46,5 @@ rect[2].set_color("#57cc99")
 ax.set_ylim(0, 100)
 ax.set_ylabel("Frecuencia de intervalo de confianza (%)")
 ax.set_xlabel("nivel de confianza")
-plt.savefig("{}{}/{}".format(parameters["path graphics"],
-                             parameters["city"],
-                             inputs["graphics name"]))
+plt.savefig("{}{}".format(city.parameters["path graphics"],
+                          parameters["graphics name"]))
