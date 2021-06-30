@@ -348,7 +348,7 @@ class Fire_Count:
                                       name))
         plt.clf()
 
-    def number_plot(self, lon_list=[], lat_lis=[], count_list=50, color="white"):
+    def number_plot(self, lon_list=[], lat_list=[], count_list=50, color="white"):
         """
         Funcion para plotear el numero de incendios, si este es 0, no ploteara nada
         """
