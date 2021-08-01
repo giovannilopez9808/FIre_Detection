@@ -53,6 +53,13 @@ class city_list:
                 "lat": [-33.25, -33.0],
                 "delta": 0.05,
             },
+            "Parana_2021_Jul": {
+                "day initial": "2021-07-01",
+                "day final": "2021-07-31",
+                "lon": [-60.75, -60],
+                "lat": [-33.25, -32.5],
+                "delta": 0.25,
+            },
             "Nuevo_Leon": {
                 "day initial": "2021-03-01",
                 "day final": "2021-04-30",
