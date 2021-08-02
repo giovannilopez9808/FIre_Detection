@@ -1,5 +1,4 @@
-Time,Outdoor,Unnamed: 2,Unnamed: 3,Unnamed: 4,Indoor,Unnamed: 6,Solar and UVI,Unnamed: 8,Rainfall,Unnamed: 10,Unnamed: 11,Unnamed: 12,Unnamed: 13,Unnamed: 14,Unnamed: 15,Wind,Unnamed: 17,Unnamed: 18,Pressure,Unnamed: 20
-,Temperature(℃),Feels Like(℃),Dew Point(℃),Humidity(%),Temperature(℃),Humidity(%),Solar(w/m²),UVI,Rain Rate(mm/hr),Daily(mm),Event(mm),Hourly(mm),Weekly(mm),Monthly(mm),Yearly(mm),Wind Speed(km/h),Wind Gust(km/h),Wind Direction(º),Relative(hPa),Absolute(hPa)
+Time,Outdoor Temperature(℃),Outdoor Feels Like(℃),Outdoor Dew Point(℃),Outdoor Humidity(%),Indoor Temperature(℃),Indoor Humidity(%),Solar(W/m2),UVI,Rainfall Rainfall Rain Rate(mm/hr),Rainfall Rainfall Daily(mm),Rainfall Rainfall Event(mm),Rainfall Rainfall Hourly(mm),Rainfall Rainfall Weekly(mm),Rainfall Rainfall Monthly(mm),Rainfall Rainfall Yearly(mm),Wind Speed(km/h),Wind Gust(km/h),Wind Direction(º),Pressure Relative(hPa),Pressure Absolute(hPa)
 2021-07-21 00:10,10.2,10.2,4.9,70,15.6,83,0.0,0,0.0,0.0,0.0,0.0,0.0,54.6,626.1,0.0,0.0,0,1018.4,1019.3
 2021-07-21 00:15,9.9,9.9,4.9,71,15.5,83,0.0,0,0.0,0.0,0.0,0.0,0.0,54.6,626.1,0.0,0.0,0,1018.5,1019.4
 2021-07-21 00:20,9.4,9.4,4.9,74,15.4,83,0.0,0,0.0,0.0,0.0,0.0,0.0,54.6,626.1,0.2,1.8,163,1018.4,1019.3
