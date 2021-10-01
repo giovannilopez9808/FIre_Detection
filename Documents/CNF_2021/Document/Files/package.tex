@@ -1,0 +1,53 @@
+% Allows the usage of non-english characters
+\usepackage[utf8]{inputenc}
+% set spanish
+\usepackage[spanish]{babel}
+% Use the Times font
+\usepackage{times}
+% Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{booktabs}
+% Allows use colors
+\usepackage{xcolor}
+% Highlight references
+\usepackage{hyperref}
+\definecolor{citecolor}{rgb}{.12,.54,.11}
+\definecolor{linkcolor}{RGB}{1, 79, 134}
+\definecolor{urlcolor}{RGB}{3, 4, 94}
+\definecolor{background}{RGB}{98,114,164}
+\definecolor{figurecaption}{RGB}{68,71,90}
+\hypersetup{
+    breaklinks=true,
+    colorlinks=true,
+    urlcolor=urlcolor,
+    linkcolor=linkcolor,
+    citecolor=citecolor,
+}
+% Location of the slide background and figure files
+\graphicspath{{../Graphics/}}
+% Beamer options - do not change
+\usetheme{default}
+% Disable the slide navigation buttons on the bottom of each slide
+\setbeamertemplate{navigation symbols}{}
+% Define the color of titles and fixed text elements (e.g. bullet points)
+\setbeamercolor{structure}{fg=\yourowntexcol}
+% Define the color of text in the presentation
+\setbeamercolor{normal text}{fg=\yourowntexcol}
+% Numerate figures
+% \setbeamertemplate{caption}[numbered]
+% Remove files icon on references
+\setbeamertemplate{bibliography item}{}
+% Ennumerate references
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+% Colorized captions figure
+\setbeamercolor{caption name}{fg=figurecaption}
+%------------
+% COLORS
+% The following colors are predefined in this class: white, black, gray, blue, green and orange
+% Define your own color as follows:
+%\definecolor{pink}{rgb}{156,0,151}
+% Opacity (transparency) for the structure elements (boxes and circles)
+\newcommand{\structureopacity}{0.75}
+% Set the color of structure elements (boxes and circles)
+\newcommand{\strcolor}{background}
+% Set the text color
+\newcommand>
