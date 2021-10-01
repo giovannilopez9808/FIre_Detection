@@ -30,10 +30,10 @@ def format_data(data=pd.DataFrame()):
 
 
 parameters = {
-    "file data": "NI.csv",
+    "file data": "NIA.csv",
     "graphics file": "Fire_Per_Day.png",
     "City name": "Parana_2020",
-    "Days separation": 10,
+    "Days separation": 12,
     "Y limit": 550,
     "Delta y": 50,
 }
@@ -65,7 +65,7 @@ plt.xlim(dates[0],
 plt.ylim(0,
          parameters["Y limit"])
 # Etiqueta en el eje y
-plt.ylabel("Número de Incendios Acumulados")
+plt.ylabel("Número de Incendios diarios")
 # Cambio en las etiquetas de los ejes x y y
 plt.xticks(dates,
            rotation=45)
@@ -76,6 +76,7 @@ plt.yticks(np.arange(0,
 plt.grid(ls="--",
          color="grey",
          alpha=0.7)
+plt.tight_layout()
 # Guardado de la grafica
 plt.savefig("{}{}".format(city.parameters["path graphics"],
                           parameters["graphics file"]),
