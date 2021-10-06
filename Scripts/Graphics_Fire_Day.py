@@ -30,11 +30,11 @@ def format_data(data=pd.DataFrame()):
 
 
 parameters = {
-    "file data": "NI.csv",
+    "file data": "NI_real.csv",
     "graphics file": "Fire_Per_Day.png",
     "City name": "Nuevo_Leon",
     "Days separation": 7,
-    "Y limit": 300,
+    "Y limit": 175,
     "Delta y": 25,
 }
 # Lectura de los parametros de cada ciudad
@@ -65,7 +65,7 @@ plt.xlim(dates[0],
 plt.ylim(0,
          parameters["Y limit"])
 # Etiqueta en el eje y
-plt.ylabel("Número de Incendios Acumulados")
+plt.ylabel("Número de Incendios diarios")
 # Cambio en las etiquetas de los ejes x y y
 plt.xticks(dates,
            rotation=45)
@@ -76,6 +76,7 @@ plt.yticks(np.arange(0,
 plt.grid(ls="--",
          color="grey",
          alpha=0.7)
+plt.tight_layout()
 # Guardado de la grafica
 plt.savefig("{}{}".format(city.parameters["path graphics"],
                           parameters["graphics file"]),
