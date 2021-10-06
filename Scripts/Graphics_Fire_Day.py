@@ -30,7 +30,7 @@ def format_data(data=pd.DataFrame()):
 
 
 parameters = {
-    "file data": "NIA.csv",
+    "file data": "NI_real.csv",
     "graphics file": "Fire_Per_Day.png",
     "City name": "Parana_2020",
     "Days separation": 12,
