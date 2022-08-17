@@ -1,6 +1,6 @@
-from Class_list import *
+from Class_list import Fire_Count
 inputs = {
-    "City name": "Parana_2021_Jul",
+    "City name": "Parana_2022_Ago",
     "Number color": "white",
     "Select nominal data": True,
 }

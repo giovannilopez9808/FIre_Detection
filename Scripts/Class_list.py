@@ -60,6 +60,13 @@ class city_list:
                 "lat": [-33.25, -32.5],
                 "delta": 0.25,
             },
+            "Parana_2022_Ago": {
+                "day initial": "2022-08-08'",
+                "day final": "2022-08-16",
+                "lon": [-60.75, -60],
+                "lat": [-33.25, -32.5],
+                "delta": 0.25,
+            },
             "Nuevo_Leon": {
                 "day initial": "2021-03-01",
                 "day final": "2021-04-30",
@@ -316,6 +323,7 @@ class Fire_Count:
         for day in range(days+1):
             date = self.parameters["day initial"]+datetime.timedelta(days=day)
             dates.append(date)
+        print(dates)
         return dates
 
     def plot_points(self, lon=np.array([]), lat=np.array([])):
