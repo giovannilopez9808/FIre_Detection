@@ -62,7 +62,7 @@ class city_list:
             },
             "Parana_2022_Ago": {
                 "day initial": "2022-08-08'",
-                "day final": "2022-08-16",
+                "day final": "2022-08-21",
                 "lon": [-60.75, -60],
                 "lat": [-33.25, -32.5],
                 "delta": 0.25,

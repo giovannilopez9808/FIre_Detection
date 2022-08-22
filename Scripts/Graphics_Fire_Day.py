@@ -1,4 +1,7 @@
-from Class_list import *
+from Class_list import city_list
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
 
 def obtain_ticks(data=pd.DataFrame(), day_separation=7):
@@ -25,17 +28,17 @@ def format_data(data=pd.DataFrame()):
     Aplica el formato de fecha a la columna Dates y la agrega al indice del dataframe
     """
     data.index = pd.to_datetime(data["Dates"])
-    data = data.drop("Dates", 1)
+    data = data.drop(columns="Dates")
     return data
 
 
 parameters = {
     "file data": "NI.csv",
     "graphics file": "Fire_Per_Day.png",
-    "City name": "Parana_2021_Jun",
+    "City name": "Parana_2022_Ago",
     "Days separation": 1,
-    "Y limit": 12,
-    "Delta y": 2,
+    "Y limit": 500,
+    "Delta y": 50,
 }
 # Lectura de los parametros de cada ciudad
 city = city_list(city=parameters["City name"])
@@ -46,11 +49,7 @@ data = format_data(data)
 # Extraccion de las fechas seleccionadas
 dates = obtain_ticks(data,
                      parameters["Days separation"])
-# Limites de las graficas
-plt.subplots_adjust(left=0.121,
-                    right=0.952,
-                    bottom=0.162,
-                    top=0.924)
+plt.subplots(figsize=(8, 4))
 # Ploteo de los datos
 plt.plot(list(data.index), list(data["NI"]),
          color="#9a031e",
@@ -65,7 +64,7 @@ plt.xlim(dates[0],
 plt.ylim(0,
          parameters["Y limit"])
 # Etiqueta en el eje y
-plt.ylabel("Número de Incendios Acumulados")
+plt.ylabel("Número de focos de incendios diarios")
 # Cambio en las etiquetas de los ejes x y y
 plt.xticks(dates,
            rotation=45)
@@ -76,6 +75,7 @@ plt.yticks(np.arange(0,
 plt.grid(ls="--",
          color="grey",
          alpha=0.7)
+plt.tight_layout()
 # Guardado de la grafica
 plt.savefig("{}{}".format(city.parameters["path graphics"],
                           parameters["graphics file"]),
