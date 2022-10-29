@@ -36,7 +36,7 @@ parameters = {
     "file data": "NI.csv",
     "graphics file": "Fire_Per_Day.png",
     "City name": "Parana_2022_Ago",
-    "Days separation": 1,
+    "Days separation": 6,
     "Y limit": 500,
     "Delta y": 50,
 }

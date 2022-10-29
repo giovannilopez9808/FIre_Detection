@@ -62,7 +62,7 @@ class city_list:
             },
             "Parana_2022_Ago": {
                 "day initial": "2022-08-08'",
-                "day final": "2022-08-21",
+                "day final": "2022-09-30",
                 "lon": [-60.75, -60],
                 "lat": [-33.25, -32.5],
                 "delta": 0.25,
@@ -118,7 +118,7 @@ class FIRMS_data:
         Funcion que realiza el formato en las fechas y las asigna al indice del dataframe
         """
         data.index = pd.to_datetime(data["acq_date"])
-        data = data.drop("acq_date", 1)
+        data = data.drop(columns="acq_date")
         return data
 
     def select_data(self):
@@ -165,7 +165,10 @@ class FIRMS_data:
 
 
 class Fire_Count:
-    def __init__(self, city_name="", select_nominal_data=True, color="white"):
+    def __init__(self,
+                 city_name="",
+                 select_nominal_data=True,
+                 color="white"):
         """
         Conteo de los datos de FIRMS en una localización fijada.
         Parameters
@@ -323,7 +326,6 @@ class Fire_Count:
         for day in range(days+1):
             date = self.parameters["day initial"]+datetime.timedelta(days=day)
             dates.append(date)
-        print(dates)
         return dates
 
     def plot_points(self, lon=np.array([]), lat=np.array([])):
