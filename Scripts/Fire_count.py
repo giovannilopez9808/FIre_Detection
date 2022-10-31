@@ -1,12 +1,9 @@
-from Class_list import *
+from Modules.fire import FireCount
 inputs = {
-    "City name": "Parana_2020",
-    "Number color": "white",
-    "Select nominal data": True,
+    "city_name": "Parana_2020",
+    "only_nominal_data": True,
+    "color": "white",
 }
-Fire_algorithm = Fire_Count(city_name=inputs["City name"],
-                            select_nominal_data=inputs["Select nominal data"],
-                            color=inputs["Number color"])
-Fire_algorithm.read_map()
-Fire_algorithm.algorithm()
+Fire_algorithm = FireCount(**inputs)
+# Fire_algorithm.run()
 Fire_algorithm.create_animation(delete=False)
