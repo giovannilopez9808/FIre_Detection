@@ -49,7 +49,7 @@ class FireCount:
         self.map = None
         self._get_city_parameters(city_name=city_name)
         self.FIRMS_data = FIRMSData(
-            parameters=self.params,
+            params=self.params,
             only_nominal_data=only_nominal_data
         )
         self.color = color
