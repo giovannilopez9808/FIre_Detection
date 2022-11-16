@@ -3,7 +3,8 @@ inputs = {
     "city_name": "Parana",
     "only_nominal_data": True,
     "color": "white",
+    "plot": False,
 }
 Fire_algorithm = FireCount(**inputs)
 Fire_algorithm.run()
-Fire_algorithm.create_animation(delete=False)
+# Fire_algorithm.create_animation(delete=False)

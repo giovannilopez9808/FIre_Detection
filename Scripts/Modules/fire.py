@@ -4,6 +4,8 @@ from datetime import timedelta
 from .firms import FIRMSData
 from .citys import CityList
 from os.path import join
+from os import makedirs
+from tqdm import tqdm
 from numpy import (
     flipud,
     arange,
@@ -24,6 +26,7 @@ class FireCount:
     def __init__(self,
                  city_name: str,
                  only_nominal_data: bool,
+                 plot: bool,
                  color: str) -> None:
         """
         Conteo de los datos de FIRMS en una localización fijada.
@@ -53,6 +56,7 @@ class FireCount:
             only_nominal_data=only_nominal_data
         )
         self.color = color
+        self.plot = plot
 
     def _get_city_parameters(self,
                              city_name: str) -> None:
@@ -141,6 +145,8 @@ class FireCount:
         # Dirección donde se creara la animacion
         self.path_movie = join(self.params["path graphics"],
                                "Movie")
+        makedirs(self.path_movie,
+                 exist_ok=True)
         print("Realizando conteo de incendios")
         # Archivo NI
         filename = join(self.params["path data"],
@@ -149,12 +155,12 @@ class FireCount:
                             "w")
         results_file.write("{},{}\n".format("Dates", "NI"))
         dates = self._get_dates()
+        dates_bar = tqdm(dates)
         data = self.FIRMS_data.data
         date_i = dates[0].date()
         date_f = dates[-1].date()
-        print("Inicio del conteo del día {} al {}".format(date_i,
-                                                          date_f))
-        for date in dates:
+        for date in dates_bar:
+            dates_bar.set_postfix(date=date)
             # Seleccion de los datos por dia
             daily_data = data[data.index == date]
             filename = f"{date.date()}.csv"
@@ -185,19 +191,20 @@ class FireCount:
                 self.fig_y
             )
             # Ploteo del numero de incendios por grilla
-            self._number_plot(
-                self.lon_division_tras,
-                self.lat_division_tras,
-                count,
-                self.color
-            )
-            # Ploteo de cada incendio
-            self._plot_points(lon,
-                              lat)
-            # Ploteo del mapa
-            self._plot_map(daily_sum,
-                           date.date(),
-                           self.path_movie)
+            if self.plot:
+                self._number_plot(
+                    self.lon_division_tras,
+                    self.lat_division_tras,
+                    count,
+                    self.color
+                )
+                # Ploteo de cada incendio
+                self._plot_points(lon,
+                                  lat)
+                # Ploteo del mapa
+                self._plot_map(daily_sum,
+                               date.date(),
+                               self.path_movie)
         results_file.close()
 
     def _count_fire(self,
