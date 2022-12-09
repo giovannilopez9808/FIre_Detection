@@ -163,7 +163,6 @@ class FireCount:
             # Seleccion de los datos por dia
             daily_data = data[data.index == date]
             filename = f"{date.date()}.csv"
-            print(daily_data)
             filename = join(self.params["path data"],
                             "Daily_data",
                             filename)
@@ -205,7 +204,6 @@ class FireCount:
                 self._plot_map(daily_sum,
                                date.date(),
                                self.path_movie)
-            break
         results_file.close()
 
     def _count_fire(self,
@@ -319,8 +317,6 @@ class FireCount:
                 r_lat = (lat_list[lat_i+1]+lat_list[lat_i])/2
                 if count != 0:
                     # Ploteo del texto
-                    print("----")
-                    print(count)
                     plt.text(r_lon,
                              r_lat,
                              str(count),
