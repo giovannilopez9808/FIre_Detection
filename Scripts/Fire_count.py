@@ -1,10 +1,10 @@
-from Class_list import Fire_Count
+from Modules.fire import FireCount
 inputs = {
     "city_name": "Parana_2022_Ago",
-    "select_nominal_data": True,
+    "only_nominal_data": True,
     "color": "white",
+    "plot": False,
 }
-Fire_algorithm = Fire_Count(**inputs)
-Fire_algorithm.read_map()
-Fire_algorithm.algorithm()
-Fire_algorithm.create_animation(delete=False)
+Fire_algorithm = FireCount(**inputs)
+Fire_algorithm.run()
+# Fire_algorithm.create_animation(delete=False)
