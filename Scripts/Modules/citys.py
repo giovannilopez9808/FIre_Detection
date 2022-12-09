@@ -48,9 +48,9 @@ class CityList:
             "Parana_2022_Ago": {
                 "day initial": "2022-08-08",
                 "day final": "2022-09-30",
-                "lon": [-60.25, -60.0],
-                "lat": [-33.25, -33.0],
-                "delta": 0.05,
+                "lon": [-60.75, -60.0],
+                "lat": [-33.25, -32.5],
+                "delta": 0.25,
             },
             "Parana_2022_Suomi": {
                 "day initial": "2012-01-01",
