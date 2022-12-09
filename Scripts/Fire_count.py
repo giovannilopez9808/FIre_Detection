@@ -3,7 +3,7 @@ inputs = {
     "city_name": "Parana_2022_Suomi",
     "only_nominal_data": True,
     "color": "white",
-    "plot": False,
+    "plot": True,
 }
 Fire_algorithm = FireCount(**inputs)
 Fire_algorithm.run()

@@ -49,9 +49,9 @@ class CityList:
                 # "day initial": "2022-08-01",
                 "day initial": "2012-01-01",
                 "day final": "2022-12-31",
-                "lon": [-60.25, -60.0],
-                "lat": [-33.25, -33.0],
-                "delta": 0.05,
+                "lon": [-60.75, -60.0],
+                "lat": [-33.25, -32.5],
+                "delta": 0.25,
             },
             "Nuevo_Leon": {
                 "day initial": "2021-03-01",

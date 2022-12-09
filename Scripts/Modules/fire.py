@@ -292,8 +292,7 @@ class FireCount:
         filename = f"{name}.png"
         filename = join(path,
                         filename)
-        plt.savefig(filename,
-                    dpi=400)
+        plt.savefig(filename)
         plt.clf()
         plt.close()
 

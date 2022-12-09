@@ -50,7 +50,7 @@ plt.xlabel("Año")
 plt.xlim(dates_tick[0],
          dates_tick[-1])
 plt.ylim(0,
-         350)
+         500)
 plt.xticks(
     dates_tick,
     years

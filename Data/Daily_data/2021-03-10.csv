@@ -1,0 +1,5 @@
+latitude,longitude,brightness,scan,track,acq_time,satellite,instrument,confidence,version,bright_t31,frp,daynight,type
+-32.949539,-60.517982,347.49,0.39,0.36,1748,N,VIIRS,n,1,313.36,10.81,D,0.0
+-32.946861,-60.522892000000006,347.59,0.39,0.36,1748,N,VIIRS,n,1,314.15,6.17,D,0.0
+-32.85046,-60.444649,335.49,0.39,0.36,1748,N,VIIRS,n,1,302.66,2.08,D,0.0
+-32.655045,-60.405197,342.31,0.39,0.36,1748,N,VIIRS,n,1,311.29,5.52,D,0.0
