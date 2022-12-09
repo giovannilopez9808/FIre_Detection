@@ -56,7 +56,7 @@ plt.xticks(
     years
 )
 # Etiqueta en el eje y
-plt.ylabel("Número de Incendios Acumulados")
+plt.ylabel("Número de Incendios diarios")
 # Creación del grid
 plt.grid(ls="--",
          color="grey",

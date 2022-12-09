@@ -36,7 +36,8 @@ class FIRMSData:
         """
         filename = join(self.params["path data"],
                         self.params["file data"])
-        data = read_csv(filename)
+        data = read_csv(filename,
+                        low_memory=False)
         self.data = self._format_date_data(data)
 
     def _format_date_data(self,
@@ -59,7 +60,7 @@ class FIRMSData:
         # Selección de los datos de acuerdo a el area a analizar
         self._get_data_from_location()
         # get only type 0
-        self._get_data_type_0()
+        # self._get_data_type_0()
 
     def _get_data_from_period(self) -> None:
         """
@@ -104,5 +105,4 @@ class FIRMSData:
         self.data = self.data[self.data["confidence"] == "n"]
 
     def _get_data_type_0(self) -> None:
-        print(self.data)
         self.data = self.data[self.data["type"] == 0]
