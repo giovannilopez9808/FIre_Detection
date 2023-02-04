@@ -9,4 +9,4 @@ Fire_algorithm = Fire_Count(city_name=inputs["City name"],
                             color=inputs["Number color"])
 Fire_algorithm.read_map()
 Fire_algorithm.algorithm()
-Fire_algorithm.create_animation(delete=False)
+# Fire_algorithm.create_animation(delete=False)

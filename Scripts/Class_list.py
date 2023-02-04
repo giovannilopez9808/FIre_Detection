@@ -54,7 +54,7 @@ class city_list:
                 "delta": 0.05,
             },
             "Nuevo_Leon": {
-                "day initial": "2021-03-01",
+                "day initial": "2021-03-11",
                 "day final": "2021-04-30",
                 "city": "Nuevo_Leon",
                 "lon": [-100.50, -99.50],
@@ -104,7 +104,9 @@ class FIRMS_data:
         Funcion que realiza el formato en las fechas y las asigna al indice del dataframe
         """
         data.index = pd.to_datetime(data["acq_date"])
-        data = data.drop("acq_date", 1)
+        data = data.drop(
+            columns="acq_date"
+        )
         return data
 
     def select_data(self):
@@ -151,7 +153,7 @@ class FIRMS_data:
 
 
 class Fire_Count:
-    def __init__(self, city_name="", select_nominal_data=True, color="white"):
+    def __init__(self, city_name="", select_nominal_data=True, color="black"):
         """
         Conteo de los datos de FIRMS en una localización fijada.
         Parameters
@@ -324,13 +326,14 @@ class Fire_Count:
         """
         Funcion para plotear el mapa y guardar la grafica
         """
-        plt.xlabel("Longitud")
-        plt.ylabel("Latitud ")
+        plt.xlabel("Longitude")
+        plt.ylabel("Latitude")
         # Ploteo del mapa
-        plt.imshow(self.map)
+        plt.imshow(self.map,
+                   alpha=0.9)
 
-        plt.title("Date {}\nTotal de incendios: {}".format(name,
-                                                           sum))
+        plt.title("Date {}\nCounting of active fires: {}".format(name,
+                                                                 sum))
         # Cambio en las ticks de cada eje
         plt.xticks(self.lon_division_tras,
                    self.lon_division)
@@ -343,15 +346,20 @@ class Fire_Count:
         # Ploteo de el grid
         plt.grid(color="black",
                  ls="--")
+        plt.tight_layout()
         # Guardado de la imagen
         plt.savefig("{}{}.png".format(path,
-                                      name))
+                                      name),
+                    dpi=400)
         plt.clf()
 
-    def number_plot(self, lon_list=[], lat_list=[], count_list=50, color="white"):
+    def number_plot(self, lon_list=[], lat_list=[], count_list=50, color="black"):
         """
         Funcion para plotear el numero de incendios, si este es 0, no ploteara nada
         """
+        plt.subplots(
+            figsize=(6, 6)
+        )
         lon_n = np.size(lon_list)
         lat_n = np.size(lat_list)
         for lon_i, counts in zip(range(lon_n-1), count_list):
