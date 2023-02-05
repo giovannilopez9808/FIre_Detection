@@ -67,6 +67,14 @@ class CityList:
                 "lat": [24.50, 25.50],
                 "delta": 0.25,
             },
+            "Nuevo_Leon_2022_Mar": {
+                "day initial": "2022-03-01",
+                "day final": "2022-04-01",
+                "city": "Nuevo_Leon",
+                "lon": [-100.50, -99.50],
+                "lat": [24.50, 25.50],
+                "delta": 0.25,
+            },
         }
         self._get_city_parameters(city_name=city)
 
