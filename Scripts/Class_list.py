@@ -54,8 +54,8 @@ class city_list:
                 "delta": 0.05,
             },
             "Nuevo_Leon": {
-                "day initial": "2021-03-11",
-                "day final": "2021-04-30",
+                "day initial": "2021-03-01",
+                "day final": "2021-04-01",
                 "city": "Nuevo_Leon",
                 "lon": [-100.50, -99.50],
                 "lat": [24.50, 25.50],
@@ -326,19 +326,38 @@ class Fire_Count:
         """
         Funcion para plotear el mapa y guardar la grafica
         """
-        plt.xlabel("Longitude")
-        plt.ylabel("Latitude")
+        plt.xlabel(
+            "Longitude",
+            weight='bold',
+            fontsize=14,
+        )
+        plt.ylabel(
+            "Latitude",
+            weight='bold',
+            fontsize=14,
+        )
         # Ploteo del mapa
         plt.imshow(self.map,
                    alpha=0.9)
 
-        plt.title("Date {}\nCounting of active fires: {}".format(name,
-                                                                 sum))
+        plt.title(
+            "Date {}\nCounting of active fires: {}".format(name,
+                                                           sum),
+            weight='bold'
+        )
         # Cambio en las ticks de cada eje
-        plt.xticks(self.lon_division_tras,
-                   self.lon_division)
-        plt.yticks(self.lat_division_tras,
-                   self.lat_division)
+        plt.xticks(
+            self.lon_division_tras,
+            self.lon_division,
+            weight='bold',
+            fontsize=14,
+        )
+        plt.yticks(
+            self.lat_division_tras,
+            self.lat_division,
+            weight='bold',
+            fontsize=14,
+        )
         plt.xlim(self.lon_division_tras[0],
                  self.lon_division_tras[-1])
         plt.ylim(self.lat_division_tras[0],
@@ -352,6 +371,7 @@ class Fire_Count:
                                       name),
                     dpi=400)
         plt.clf()
+        plt.close()
 
     def number_plot(self, lon_list=[], lat_list=[], count_list=50, color="black"):
         """
