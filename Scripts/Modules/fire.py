@@ -21,10 +21,12 @@ from os import (
 
 
 class FireCount:
-    def __init__(self,
-                 city_name: str,
-                 only_nominal_data: bool,
-                 color: str) -> None:
+    def __init__(
+        self,
+        city_name: str,
+        only_nominal_data: bool,
+        color: str
+    ) -> None:
         """
         Conteo de los datos de FIRMS en una localización fijada.
         Parameters
@@ -47,19 +49,25 @@ class FireCount:
         self.fig_x = None
         self.fig_y = None
         self.map = None
-        self._get_city_parameters(city_name=city_name)
+        self._get_city_parameters(
+            city_name=city_name
+        )
         self.FIRMS_data = FIRMSData(
             parameters=self.params,
             only_nominal_data=only_nominal_data
         )
         self.color = color
 
-    def _get_city_parameters(self,
-                             city_name: str) -> None:
+    def _get_city_parameters(
+        self,
+        city_name: str
+    ) -> None:
         """
         Selecciona los parametros dependiendo del nombre de la ciudad
         """
-        city_parameters = CityList(city_name)
+        city_parameters = CityList(
+            city_name
+        )
         self.params = city_parameters.parameters
 
     def _read_map(self,
@@ -68,17 +76,27 @@ class FireCount:
         Lectura del mapa de la region donde se esta realizando el estudio
         """
         # Lectura de la imagen
-        filename = join(self.params["path graphics"],
-                        name)
-        self.map = plt.imread(filename)
+        filename = join(
+            self.params["path graphics"],
+            name
+        )
+        self.map = plt.imread(
+            filename
+        )
         # Obtener las dimensiones de la imagen en pixeles
-        self.fig_y, self.fig_x, _ = shape(self.map)
+        self.fig_y, self.fig_x, _ = shape(
+            self.map
+        )
         # Reflexion vertical de la imagen
-        self.map = flipud(self.map)
+        self.map = flipud(
+            self.map
+        )
         # Calculo de las grillas de la region por analizar
         self._create_grids()
 
-    def _create_grids(self) -> None:
+    def _create_grids(
+        self
+    ) -> None:
         """
         Funcion que crea las grillas de busqueda y realiza la
         transformacion para el espacio de la imagen
@@ -102,23 +120,33 @@ class FireCount:
             self.fig_y
         )
 
-    def _delimiter_grids(self,
-                         pos_points: list,
-                         delta: float = 0.25) -> tuple:
+    def _delimiter_grids(
+        self,
+        pos_points: list,
+        delta: float = 0.25
+    ) -> tuple:
         """
         Funcion para obtener el numero de grillas
         """
-        pos = round(arange(pos_points[0],
-                           pos_points[1]+delta,
-                           delta),
-                    3)
-        data_size = size(pos)
+        pos = round(
+            arange(
+                pos_points[0],
+                pos_points[1]+delta,
+                delta
+            ),
+            3
+        )
+        data_size = size(
+            pos
+        )
         return pos, data_size
 
-    def _traslation_positions(self,
-                              pos_data: list,
-                              pos_parameter: list,
-                              resize: int = 500) -> array:
+    def _traslation_positions(
+        self,
+        pos_data: list,
+        pos_parameter: list,
+        resize: int = 500
+    ) -> array:
         """
         Funcion para redefinir las posiciones de las longitudes y
         latitudes al espacio de la imagen
@@ -139,21 +167,30 @@ class FireCount:
         """
         self._read_map()
         # Dirección donde se creara la animacion
-        self.path_movie = join(self.params["path graphics"],
-                               "Movie")
-        print("Realizando conteo de incendios")
+        self.path_movie = join(
+            self.params["path graphics"],
+            "Movie"
+        )
+        print(
+            "Realizando conteo de incendios"
+        )
         # Archivo NI
-        filename = join(self.params["path data"],
-                        "NI.csv")
-        results_file = open(filename,
-                            "w")
+        filename = join(
+            self.params["path data"],
+            "NI.csv"
+        )
+        results_file = open(
+            filename,
+            "w"
+        )
         results_file.write("{},{}\n".format("Dates", "NI"))
         dates = self._get_dates()
         data = self.FIRMS_data.data
         date_i = dates[0].date()
         date_f = dates[-1].date()
-        print("Inicio del conteo del día {} al {}".format(date_i,
-                                                          date_f))
+        print(
+            f"Inicio del conteo del día {date_i} al {date_f}"
+        )
         for date in dates:
             # Seleccion de los datos por dia
             daily_data = data[data.index == date]
@@ -161,15 +198,23 @@ class FireCount:
             filename = join(self.params["path data"],
                             "Daily_data",
                             filename)
-            daily_data.to_csv(filename,
-                              index=False)
+            daily_data.to_csv(
+                filename,
+                index=False
+            )
             # Conteo de los incendios para cada grilla
-            count = self._count_fire(daily_data)
+            count = self._count_fire(
+                daily_data
+            )
             # Conteo de los incendios para todo el dia
             daily_sum = sum(count)
             # Escritura de los resultados
-            results_file.write("{},{}\n".format(date.date(),
-                                                daily_sum))
+            results_file.write(
+                "{},{}\n".format(
+                    date.date(),
+                    daily_sum
+                )
+            )
             # Lectura de la latitud y longitud
             lat = array(daily_data["latitude"])
             lon = array(daily_data["longitude"])
@@ -195,13 +240,17 @@ class FireCount:
             self._plot_points(lon,
                               lat)
             # Ploteo del mapa
-            self._plot_map(daily_sum,
-                           date.date(),
-                           self.path_movie)
+            self._plot_map(
+                daily_sum,
+                date.date(),
+                self.path_movie
+            )
         results_file.close()
 
-    def _count_fire(self,
-                    data: array) -> array:
+    def _count_fire(
+        self,
+        data: array
+    ) -> array:
         """
         Algoritmo para el conteo de los incendios en cada grilla
         """
@@ -244,21 +293,28 @@ class FireCount:
             dates.append(date)
         return dates
 
-    def _plot_points(self,
-                     lon: array,
-                     lat: array) -> None:
+    def _plot_points(
+        self,
+        lon: array,
+        lat: array
+    ) -> None:
         """
         Funcion para plotear los puntos de cada incendio
         """
-        plt.scatter(lon, lat,
-                    alpha=1,
-                    color="#ff0000",
-                    marker=".")
+        plt.scatter(
+            lon,
+            lat,
+            alpha=1,
+            color="#ff0000",
+            marker="."
+        )
 
-    def _plot_map(self,
-                  sum_number: int,
-                  name: str,
-                  path: str) -> None:
+    def _plot_map(
+        self,
+        sum_number: int,
+        name: str,
+        path: str
+    ) -> None:
         """
         Funcion para plotear el mapa y guardar la grafica
         """
@@ -270,31 +326,47 @@ class FireCount:
         plt.title("Date {}\nTotal de incendios: {}".format(name,
                                                            sum_number))
         # Cambio en las ticks de cada eje
-        plt.xticks(self.lon_division_tras,
-                   self.lon_division)
-        plt.yticks(self.lat_division_tras,
-                   self.lat_division)
-        plt.xlim(self.lon_division_tras[0],
-                 self.lon_division_tras[-1])
-        plt.ylim(self.lat_division_tras[0],
-                 self.lat_division_tras[-1])
+        plt.xticks(
+            self.lon_division_tras,
+            self.lon_division
+        )
+        plt.yticks(
+            self.lat_division_tras,
+            self.lat_division
+        )
+        plt.xlim(
+            self.lon_division_tras[0],
+            self.lon_division_tras[-1]
+        )
+        plt.ylim(
+            self.lat_division_tras[0],
+            self.lat_division_tras[-1]
+        )
         # Ploteo de el grid
-        plt.grid(color="black",
-                 ls="--")
+        plt.grid(
+            color="black",
+            ls="--"
+        )
         # Guardado de la imagen
         filename = f"{name}.png"
-        filename = join(path,
-                        filename)
-        plt.savefig(filename,
-                    dpi=400)
+        filename = join(
+            path,
+            filename
+        )
+        plt.savefig(
+            filename,
+            dpi=400
+        )
         plt.clf()
         plt.close()
 
-    def _number_plot(self,
-                     lon_list: list,
-                     lat_list: list,
-                     count_list: list,
-                     color: str = "white") -> None:
+    def _number_plot(
+        self,
+        lon_list: list,
+        lat_list: list,
+        count_list: list,
+        color: str = "white"
+    ) -> None:
         """
         Funcion para plotear el numero de incendios, si es 0
         no ploteara nada
@@ -311,32 +383,49 @@ class FireCount:
                 r_lat = (lat_list[lat_i+1]+lat_list[lat_i])/2
                 if count != 0:
                     # Ploteo del texto
-                    plt.text(r_lon,
-                             r_lat,
-                             str(count),
-                             fontsize=12,
-                             color=color)
+                    plt.text(
+                        r_lon,
+                        r_lat,
+                        str(count),
+                        fontsize=12,
+                        color=color
+                    )
 
-    def create_animation(self,
-                         name: str = "Fire",
-                         delete: bool = True,
-                         fps: int = 3) -> None:
+    def create_animation(
+        self,
+        name: str = "Fire",
+        delete: bool = True,
+        fps: int = 3
+    ) -> None:
         """
         Funcion que ejecuta la creacion de la animacion
         """
         self.path_movie = "../Graphics/Movie"
         filenames = sorted(listdir(self.path_movie))
-        filenames = [join(self.path_movie,
-                          filename)
-                     for filename in filenames]
+        filenames = [
+            join(
+                self.path_movie,
+                filename
+            )
+            for filename in filenames
+        ]
         output_file = f"{name}.mp4"
-        output_file = join(self.params["path graphics"],
-                           output_file)
-        movie = MovieMaker.ImageSequenceClip(filenames,
-                                             fps=fps,)
-        movie.write_videofile(output_file,
-                              logger=None)
-        print("Creación del video en {}".format(
-            self.params["path graphics"]))
+        output_file = join(
+            self.params["path graphics"],
+            output_file
+        )
+        movie = MovieMaker.ImageSequenceClip(
+            filenames,
+            fps=fps,
+        )
+        movie.write_videofile(
+            output_file,
+            logger=None
+        )
+        print(
+            "Creación del video en {}".format(
+                self.params["path graphics"]
+            )
+        )
         if delete:
             system("rm {}*.png".format(self.path_movie))
