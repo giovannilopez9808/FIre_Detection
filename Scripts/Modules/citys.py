@@ -1,6 +1,8 @@
 class CityList:
-    def __init__(self,
-                 city: str) -> None:
+    def __init__(
+        self,
+        city: str
+    ) -> None:
         """
         Contiene los parametros del periodo y zona de análisis de cada región
         ----------------------------
@@ -20,9 +22,11 @@ class CityList:
             + path graphics -> direccion donde se guardaran las imagenes
 
         """
-        self.parameters = {"path data": "../Data/",
-                           "file data": "data.csv",
-                           "path graphics": "../Graphics/"}
+        self.parameters = {
+            "path data": "../Data/",
+            "file data": "data.csv",
+            "path graphics": "../Graphics/"
+        }
         self.citys = {
             "Parana_2020": {
                 "day initial": "2020-06-03",
@@ -53,13 +57,35 @@ class CityList:
                 "lat": [24.50, 25.50],
                 "delta": 0.25,
             },
+            # "Nuevo_Leon_Historic": {
+            # "day initial": "2015-01-01",
+            # "day final": "2023-12-31",
+            # "city": "Nuevo_Leon",
+            # "lon": [-100.50, -99.50],
+            # "lat": [24.50, 25.50],
+            # "delta": 0.25,
+            # },
+            "Nuevo_Leon_Historic": {
+                "day initial": "2012-01-01",
+                "day final": "2022-12-31",
+                "city": "Nuevo_Leon",
+                "lon": [-100.75, -99.50],
+                "lat": [24.50, 25.50],
+                "delta": 0.25,
+            },
         }
-        self._get_city_parameters(city_name=city)
+        self._get_city_parameters(
+            city_name=city
+        )
 
-    def _get_city_parameters(self,
-                             city_name: str) -> None:
+    def _get_city_parameters(
+        self,
+        city_name: str
+    ) -> None:
         """
         Realiza una union del diccionario con las direcciones de los
         datos con el diccionario de los parametros para cada ciudad
         """
-        self.parameters.update(self.citys[city_name])
+        self.parameters.update(
+            self.citys[city_name]
+        )

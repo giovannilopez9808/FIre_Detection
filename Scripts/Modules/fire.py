@@ -53,7 +53,7 @@ class FireCount:
             city_name=city_name
         )
         self.FIRMS_data = FIRMSData(
-            parameters=self.params,
+            params=self.params,
             only_nominal_data=only_nominal_data
         )
         self.color = color
@@ -318,13 +318,21 @@ class FireCount:
         """
         Funcion para plotear el mapa y guardar la grafica
         """
-        plt.xlabel("Longitud")
-        plt.ylabel("Latitud ")
+        plt.xlabel(
+            "Longitude"
+        )
+        plt.ylabel(
+            "Latitude"
+        )
         # Ploteo del mapa
         plt.imshow(self.map)
 
-        plt.title("Date {}\nTotal de incendios: {}".format(name,
-                                                           sum_number))
+        plt.title(
+            "Date {}\nCounting of active fires: {}".format(
+                name,
+                sum_number,
+            )
+        )
         # Cambio en las ticks de cada eje
         plt.xticks(
             self.lon_division_tras,
